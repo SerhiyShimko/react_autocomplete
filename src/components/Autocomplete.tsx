@@ -4,7 +4,7 @@ import './Autocomplete.scss';
 
 type Props = {
   peopleFromServer: Person[];
-  onSelected: (person: Person) => void;
+  onNewSelected: (person: Person) => void;
   setNewValue: (value: string) => void;
   newValue: string;
   selected: Person | null;
@@ -27,7 +27,7 @@ function debounce(callback: unknown, delay: number) {
 
 export const Autocomplete: React.FC<Props> = ({
   peopleFromServer,
-  onSelected,
+  onNewSelected,
   setNewValue,
   newValue,
   selected,
@@ -60,7 +60,6 @@ export const Autocomplete: React.FC<Props> = ({
             className="input"
             data-cy="search-input"
             onFocus={() => setShowList(true)}
-            onBlur={() => setTimeout(() => setShowList(false), 10)}
             value={newValue}
             onChange={e => {
               setNewValue(e.target.value);
@@ -78,7 +77,7 @@ export const Autocomplete: React.FC<Props> = ({
                     data-cy="suggestion-item"
                     key={person.slug}
                     onClick={() => {
-                      onSelected(person);
+                      onNewSelected(person);
                       setNewValue(person.name);
                     }}
                   >

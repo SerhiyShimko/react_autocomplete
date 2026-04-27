@@ -20,10 +20,11 @@ export const App: React.FC = () => {
             ? `${selected.name} (${selected.born} - ${selected.died})`
             : 'No selected person'}
         </h1>
+        <div>{`${selected?.name}`}</div>
 
         <Autocomplete
           peopleFromServer={peopleFromServer}
-          onSelected={prev => onSelected(prev)}
+          onNewSelected={prev => onSelected(prev)}
           setNewValue={prev => setValue(prev)}
           newValue={value}
           selected={selected}
