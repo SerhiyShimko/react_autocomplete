@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { peopleFromServer } from './data/people';
 import { Autocomplete } from './components/Autocomplete';
@@ -8,9 +8,11 @@ export const App: React.FC = () => {
   const [selected, onSelected] = useState<Person | null>(null);
   const [value, setValue] = useState('');
 
-  if (selected && value.trim() !== selected.name.trim()) {
-    onSelected(null);
-  }
+  useEffect(() => {
+    if (selected?.name.trim() !== value.trim()) {
+      onSelected(null);
+    }
+  }, [value]);
 
   return (
     <div className="container">
@@ -20,14 +22,11 @@ export const App: React.FC = () => {
             ? `${selected.name} (${selected.born} - ${selected.died})`
             : 'No selected person'}
         </h1>
-        <div>{`${selected?.name}`}</div>
-
         <Autocomplete
           peopleFromServer={peopleFromServer}
           onNewSelected={prev => onSelected(prev)}
           setNewValue={prev => setValue(prev)}
           newValue={value}
-          selected={selected}
           delay={300}
         />
       </main>

@@ -7,7 +7,6 @@ type Props = {
   onNewSelected: (person: Person) => void;
   setNewValue: (value: string) => void;
   newValue: string;
-  selected: Person | null;
   delay: number;
 };
 
@@ -30,7 +29,6 @@ export const Autocomplete: React.FC<Props> = ({
   onNewSelected,
   setNewValue,
   newValue,
-  selected,
   delay,
 }) => {
   const [people, setPeople] = useState(peopleFromServer);
@@ -60,8 +58,13 @@ export const Autocomplete: React.FC<Props> = ({
             className="input"
             data-cy="search-input"
             onFocus={() => setShowList(true)}
+            onBlur={() => setTimeout(() => setShowList(false), 300)}
             value={newValue}
             onChange={e => {
+              if (newValue.trim() === '') {
+                return;
+              }
+
               setNewValue(e.target.value);
             }}
           />
@@ -90,7 +93,7 @@ export const Autocomplete: React.FC<Props> = ({
         )}
       </div>
 
-      {people.length < 1 && !selected ? (
+      {people.length === 0 && showList ? (
         <div
           className="
             notification
